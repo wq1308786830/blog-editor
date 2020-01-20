@@ -1,26 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Loadable from 'react-loadable';
+import { Redirect, Route, Router } from 'react-router-dom';
+import { Spin } from 'antd';
+import moment from 'moment';
+import { createBrowserHistory } from 'history';
+
+import 'moment/locale/zh-cn';
+import './App.less';
+
+const history = createBrowserHistory();
+moment.locale('zh-cn');
+
+const Loading = () => (
+  <div className="loading">
+    <Spin size="large" />
+  </div>
+);
+
+const AdminMain = Loadable({
+  loader: () => import('./pages/admin/Main/Main'),
+  loading: Loading
+});
+
+const Login = Loadable({
+  loader: () => import('./pages/admin/Login'),
+  loading: Loading
+});
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router history={history}>
+      <div className="App">
+        <Route exact path="/" render={() => <Redirect to="/admin" />} />
+        <PrivateRoute path="/admin" component={AdminMain} />
+        <Route path="/loginAdmin" component={Login} />
+      </div>
+    </Router>
   );
 }
 
+// @ts-ignore
+export const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      localStorage.getItem('user') ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/loginAdmin',
+            state: { from: props.location }
+          }}
+        />
+      )
+    }
+  />
+);
+
 export default App;
+

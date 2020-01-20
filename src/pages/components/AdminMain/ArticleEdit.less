@@ -1,0 +1,33 @@
+@import '../../components/markdown';
+.ArticleEdit {
+  background-color: transparent;
+  .rdw-storybook-editor {
+    height: 70vh;
+    border: 1px solid #eee;
+  }
+  .rdw-storybook-wrapper {
+    height: 70%;
+  }
+  .ant-input-group-compact {
+    width: auto;
+    margin-right: 2rem;
+  }
+  .markdown-container {
+    height: calc(100vh - 260px);
+    width: 100%;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    .monaco-container {
+      flex: 1;
+      width: 50%;
+    }
+    .preview-container {
+      flex: 1;
+      width: 50%;
+      padding: 0 20px;
+      overflow-y: scroll;
+      .markdown;
+    }
+  }
+}

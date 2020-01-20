@@ -1,0 +1,14 @@
+.content-glance {
+  position: relative;
+  overflow: hidden;
+  height: 2em * 1.5;
+  &:after {
+    position: absolute;
+    content: '[...]';
+    width: 3em;
+    right: 0;
+    top: 1 * 1.5em;
+    text-align: right;
+    background: linear-gradient(to right, rgba(255,255,255, 0.5), rgba(255,255,255, 0.9), #ffffff);
+  }
+}
