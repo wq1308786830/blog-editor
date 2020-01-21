@@ -1,12 +1,12 @@
-import React from 'react';
-import { Card, Col, Form, Layout, Row } from 'antd';
-import NormalLoginForm from '../../components/NormalLoginForm/NormalLoginForm';
+import React from "react";
+import { Card, Col, Form, Layout, Row } from "antd";
+import NormalLoginForm from "../../components/NormalLoginForm/NormalLoginForm";
 
-import './Login.less';
+import "./Login.less";
 
 const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
 
-function Login() {
+const Login = () => {
   return (
     <Layout className="Login gradient-bg">
       <div className="back-img">
@@ -20,6 +20,6 @@ function Login() {
       </div>
     </Layout>
   );
-}
+};
 
 export default Login;

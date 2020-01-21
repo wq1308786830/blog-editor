@@ -1,130 +1,149 @@
-import React from 'react';
-import { Button, message, Select } from 'antd';
-import CategoryModal from './CategoryModal';
-import BlogServices from '../../../services/BlogServices';
-import './CategoryManage.less';
+import React, { useEffect, useState } from "react";
+import { Button, message, Select } from "antd";
+import CategoryModal from "./CategoryModal";
+import BlogServices from "../../../services/blog";
+import "./CategoryManage.less";
 
 const { Option } = Select;
 
-class CategoryManage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.categoryTemp = null; // category cache data.
-    this.categoryModal = React.createRef();
-    this.state = {
-      curId: [],
-      children1: [],
-      children2: [],
-      children3: [],
-      categoryData: []
-    };
-  }
+interface CategoryProps {}
 
-  componentDidMount() {
-    this.getAllCategories();
-  }
+interface CategoryState {
+  curId: number[];
+  children1: any[];
+  children2: any[];
+  children3: any[];
+  categoryData: any[];
+}
+
+const CategoryManage = (props: CategoryProps) => {
+  let categoryTemp: any[]; // category cache data.
+  const initState: CategoryState = {
+    curId: [],
+    children1: [],
+    children2: [],
+    children3: [],
+    categoryData: []
+  };
+
+  const [compState, setCompState] = useState(initState);
+  const [modal, setModal] = useState({ visible: false, categoryName: "" });
+
+  useEffect(() => {
+    getAllCategories();
+  });
 
   /**
    * get next level children in data by `id`.
    * @param id
    * @param data
    */
-  getChildren(id, data) {
+  const getChildren = (id: string, data: any) => {
     if (!data || !data.length) {
       return;
     }
-    data.map(item => {
+    data.map((item: any) => {
       if (item.id === parseInt(id, 10)) {
-        this.categoryTemp = item.subCategory;
+        categoryTemp = item.subCategory;
       } else {
-        return this.getChildren(id, item.subCategory);
+        return getChildren(id, item.subCategory);
       }
-      return this.categoryTemp;
+      return categoryTemp;
     });
-  }
+  };
 
   // get all categories data in json string.
-  getAllCategories() {
+  const getAllCategories = () => {
     BlogServices.getAllCategories()
-      .then(data => {
+      .then((data: any) => {
         if (data.success) {
-          let children = data.data.map(item => <Option key={item.id}>{item.name}</Option>);
-          this.setState({ children1: children });
-          this.setState({ categoryData: data.data });
+          let children = data.data.map((item: any) => (
+            <Option key={item.id}>{item.name}</Option>
+          ));
+          setCompState({
+            ...compState,
+            children1: children,
+            categoryData: data.data
+          });
           children = null;
         } else {
           message.warning(data.msg);
         }
       })
-      .catch(e => message.error(`错误：${e}`));
-  }
+      .catch((e: any) => message.error(`错误：${e}`));
+  };
 
-  handleChange1 = value => {
-    const { curId } = this.state;
-    const children = this.handleChangeInner(value);
-    this.setState({ children2: children });
+  const handleChange1 = (value: any) => {
+    const { curId } = compState;
+    const children: any[] = handleChangeInner(value);
+    setCompState({ ...compState, children2: children });
     if (parseInt(value, 10)) {
       curId.splice(
         0 /* start position */,
         curId.length /* delete count */,
         value /* insert value */
       );
-      this.setState({ curId });
+      setCompState({ ...compState, curId });
     } else {
       // set first `curId` item as a default value `0` when `value` equals `0`.
-      this.setState({ curId: [0] });
+      setCompState({ ...compState, curId: [0] });
     }
   };
 
-  handleChange2 = value => {
-    const { curId } = this.state;
-    const children = this.handleChangeInner(value);
-    this.setState({ children3: children });
+  const handleChange2 = (value: any) => {
+    const { curId } = compState;
+    const children = handleChangeInner(value);
+    setCompState({ ...compState, children3: children });
     if (parseInt(value, 10)) {
       curId.splice(1, curId.length - 1, value);
-      this.setState({ curId });
+      setCompState({ ...compState, curId });
     } else {
       // push the last item of `curId` array as a new item into
       // `curId` when `value` param equals `0`.
-      this.setState({ curId: curId.concat(curId[curId.length - 1]) });
+      setCompState({
+        ...compState,
+        curId: curId.concat(curId[curId.length - 1])
+      });
     }
   };
 
-  handleChange3 = value => {
-    const { curId } = this.state;
+  const handleChange3 = (value: any) => {
+    const { curId } = compState;
     if (parseInt(value, 10)) {
-      this.setState({ curId: value });
+      setCompState({ ...compState, curId: value });
       curId.splice(2, curId.length - 2, value);
-      this.setState({ curId });
+      setCompState({ ...compState, curId });
     } else {
       // push the last item of `curId` array as a new item into
       // `curId` when `value` param equals `0`.
-      this.setState({ curId: curId.concat(curId[curId.length - 1]) });
-      this.categoryModal.current.setState({ visible: true });
-      this.categoryModal.current.setState({ categoryName: '' });
+      setCompState({
+        ...compState,
+        curId: curId.concat(curId[curId.length - 1])
+      });
+      setModal({ visible: true, categoryName: "" });
     }
   };
 
-  delCategory = () => {
-    const { curId } = this.state;
+  const delCategory = () => {
+    const { curId } = compState;
     BlogServices.deleteCategory(curId[curId.length - 1])
-      .then(data => {
+      .then((data: any) => {
         if (data.success) {
-          message.warning('删除成功');
+          message.warning("删除成功");
         } else {
           message.warning(data.msg);
         }
       })
-      .catch(e => message.error(`错误：${e}`));
+      .catch((e: any) => message.error(`错误：${e}`));
   };
 
-  handleChangeInner(value) {
-    const children = [];
+  const handleChangeInner = (value: any) => {
+    const children: any[] = [];
     if (parseInt(value, 10)) {
-      const { categoryData } = this.state;
-      this.getChildren(parseInt(value, 10), categoryData);
-      if (this.categoryTemp) {
-        this.categoryTemp.map(item =>
+      const { categoryData } = compState;
+      getChildren(value, categoryData);
+      if (categoryTemp) {
+        categoryTemp.map((item: any) =>
           children.push(
             <Option key={`${item.id}s`} value={item.id}>
               {item.name}
@@ -134,56 +153,79 @@ class CategoryManage extends React.Component {
       }
       return children;
     }
-    // refs下的属性首字母必须小写：categoryModal
-    this.categoryModal.current.setState({ visible: true });
-    this.categoryModal.current.setState({ categoryName: '' });
+    setModal({ visible: true, categoryName: "" });
     return children;
-  }
+  };
 
-  render() {
-    const { children1, children2, children3, curId } = this.state;
-    return (
-      <div className="CategoryManage">
-        <div className="category-item">
-          <section>一级类目：</section>
-          <Select placeholder="请选择" onSelect={this.handleChange1} style={{ width: 300 }}>
-            <Option key={0}>添加</Option>
-            {children1}
-          </Select>
-          <Button type="danger" style={{ margin: '0 10px' }} onClick={this.delCategory}>
-            删除
-          </Button>
-        </div>
-        <div className="category-item">
-          <section>二级类目：</section>
-          <Select placeholder="请选择" onSelect={this.handleChange2} style={{ width: 300 }}>
-            <Option key={0}>添加</Option>
-            {children2}
-          </Select>
-          <Button type="danger" style={{ margin: '0 10px' }} onClick={this.delCategory}>
-            删除
-          </Button>
-        </div>
-        <div className="category-item">
-          <section>三级类目：</section>
-          <Select placeholder="请选择" onSelect={this.handleChange3} style={{ width: 300 }}>
-            <Option key={0}>添加</Option>
-            {children3}
-          </Select>
-          <Button type="danger" style={{ margin: '0 10px' }} onClick={this.delCategory}>
-            删除
-          </Button>
-        </div>
-        {/* <div className="category-item"> */}
-        {/* <Button style={{width: 300}} type="primary" onClick={this.handleSubmit}>提交</Button> */}
-        {/* </div> */}
-        <CategoryModal
-          ref={this.categoryModal}
-          data={{ level: curId.length, categoryId: curId[curId.length - 1] }}
-        />
+  const { children1, children2, children3, curId } = compState;
+  const modalProps = {
+    visible: modal.visible,
+    categoryName: modal.categoryName,
+    level: curId.length,
+    categoryId: curId[curId.length - 1]
+  };
+  return (
+    <div className="CategoryManage">
+      <div className="category-item">
+        <section>一级类目：</section>
+        <Select
+          placeholder="请选择"
+          onSelect={handleChange1}
+          style={{ width: 300 }}
+        >
+          <Option key={0}>添加</Option>
+          {children1}
+        </Select>
+        <Button
+          type="danger"
+          style={{ margin: "0 10px" }}
+          onClick={delCategory}
+        >
+          删除
+        </Button>
       </div>
-    );
-  }
-}
+      <div className="category-item">
+        <section>二级类目：</section>
+        <Select
+          placeholder="请选择"
+          onSelect={handleChange2}
+          style={{ width: 300 }}
+        >
+          <Option key={0}>添加</Option>
+          {children2}
+        </Select>
+        <Button
+          type="danger"
+          style={{ margin: "0 10px" }}
+          onClick={delCategory}
+        >
+          删除
+        </Button>
+      </div>
+      <div className="category-item">
+        <section>三级类目：</section>
+        <Select
+          placeholder="请选择"
+          onSelect={handleChange3}
+          style={{ width: 300 }}
+        >
+          <Option key={0}>添加</Option>
+          {children3}
+        </Select>
+        <Button
+          type="danger"
+          style={{ margin: "0 10px" }}
+          onClick={delCategory}
+        >
+          删除
+        </Button>
+      </div>
+      {/* <div className="category-item"> */}
+      {/* <Button style={{width: 300}} type="primary" onClick={this.handleSubmit}>提交</Button> */}
+      {/* </div> */}
+      <CategoryModal data={modalProps} />
+    </div>
+  );
+};
 
 export default CategoryManage;

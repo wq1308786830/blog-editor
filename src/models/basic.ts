@@ -24,3 +24,9 @@ export interface ArticleEditState {
   editor: any;
   markdownContent: any
 }
+
+export interface ResponseProps {
+  success: boolean;
+  msg: string;
+  data: any;
+}
