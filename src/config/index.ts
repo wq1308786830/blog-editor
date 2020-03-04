@@ -1,4 +1,4 @@
-const env: string = process.env.NODE_ENV;
+const env: string = 'production';
 
 interface Config {
   [index: string]: string;
@@ -6,8 +6,8 @@ interface Config {
 
 const Config: Config = {
   foreignPrefix: 'http://104.156.250.95:7001',
-  production: 'http://47.112.23.45:5002',
-  development: 'http://localhost:5002'
+  production: 'http://47.112.23.45:5001/1.0',
+  development: 'http://localhost:5001/1.0'
 };
 
 const prefix: string = Config[`${env}`];
