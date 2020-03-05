@@ -1,4 +1,5 @@
 import React from "react";
+import {useHistory} from 'react-router-dom';
 import { Button, Checkbox, Form, Icon, Input, message } from "antd";
 import Recaptcha from "react-recaptcha";
 import AdminServices from "../../../services/admin";
@@ -6,13 +7,14 @@ import "./NormalLoginForm.less";
 
 interface LoginFormProps {
   form: any;
-  history: any;
 }
 
 const NormalLoginForm = (props: LoginFormProps) => {
-  const handleSubmit = (e: any) => {
+    const history = useHistory();
+    const handleSubmit = (e: any) => {
     e.preventDefault();
-    const { form, history } = props;
+    const { form } = props;
+
     form.validateFields((err: any, values: any) => {
       if (!err) {
         AdminServices.login(values)
@@ -25,11 +27,11 @@ const NormalLoginForm = (props: LoginFormProps) => {
             }
           })
           .catch((error: any) => {
-            error.response
+              error.response ? error.response
               .json()
               .then((data: any) =>
                 message.error(`错误${e.response.status}：${data.msg}`)
-              );
+              ) : message.error(error.toString());
           });
       }
     });
