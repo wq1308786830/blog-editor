@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Button, message, Select } from "antd";
-import CategoryModal from "./CategoryModal";
-import BlogServices from "../../../services/blog";
-import "./CategoryManage.less";
+import React, { useEffect, useState } from 'react';
+import { Button, message, Select } from 'antd';
+import CategoryModal from './CategoryModal';
+import BlogServices from '../../../services/blog';
+import './CategoryManage.less';
 
 const { Option } = Select;
 
@@ -27,7 +27,7 @@ const CategoryManage = (props: CategoryProps) => {
   };
 
   const [compState, setCompState] = useState(initState);
-  const [modal, setModal] = useState({ visible: false, categoryName: "" });
+  const [modal, setModal] = useState({ visible: false, categoryName: '' });
 
   useEffect(() => {
     getAllCategories();
@@ -120,7 +120,7 @@ const CategoryManage = (props: CategoryProps) => {
         ...compState,
         curId: curId.concat(curId[curId.length - 1])
       });
-      setModal({ visible: true, categoryName: "" });
+      setModal({ visible: true, categoryName: '' });
     }
   };
 
@@ -129,7 +129,7 @@ const CategoryManage = (props: CategoryProps) => {
     BlogServices.deleteCategory(curId[curId.length - 1])
       .then((data: any) => {
         if (data.success) {
-          message.warning("删除成功");
+          message.warning('删除成功');
         } else {
           message.warning(data.msg);
         }
@@ -153,7 +153,7 @@ const CategoryManage = (props: CategoryProps) => {
       }
       return children;
     }
-    setModal({ visible: true, categoryName: "" });
+    setModal({ visible: true, categoryName: '' });
     return children;
   };
 
@@ -165,11 +165,11 @@ const CategoryManage = (props: CategoryProps) => {
     categoryId: curId[curId.length - 1]
   };
   return (
-    <div className="CategoryManage">
-      <div className="category-item">
+    <div className='CategoryManage'>
+      <div className='category-item'>
         <section>一级类目：</section>
         <Select
-          placeholder="请选择"
+          placeholder='请选择'
           onSelect={handleChange1}
           style={{ width: 300 }}
         >
@@ -177,17 +177,17 @@ const CategoryManage = (props: CategoryProps) => {
           {children1}
         </Select>
         <Button
-          type="danger"
-          style={{ margin: "0 10px" }}
+          type='danger'
+          style={{ margin: '0 10px' }}
           onClick={delCategory}
         >
           删除
         </Button>
       </div>
-      <div className="category-item">
+      <div className='category-item'>
         <section>二级类目：</section>
         <Select
-          placeholder="请选择"
+          placeholder='请选择'
           onSelect={handleChange2}
           style={{ width: 300 }}
         >
@@ -195,17 +195,17 @@ const CategoryManage = (props: CategoryProps) => {
           {children2}
         </Select>
         <Button
-          type="danger"
-          style={{ margin: "0 10px" }}
+          type='danger'
+          style={{ margin: '0 10px' }}
           onClick={delCategory}
         >
           删除
         </Button>
       </div>
-      <div className="category-item">
+      <div className='category-item'>
         <section>三级类目：</section>
         <Select
-          placeholder="请选择"
+          placeholder='请选择'
           onSelect={handleChange3}
           style={{ width: 300 }}
         >
@@ -213,8 +213,8 @@ const CategoryManage = (props: CategoryProps) => {
           {children3}
         </Select>
         <Button
-          type="danger"
-          style={{ margin: "0 10px" }}
+          type='danger'
+          style={{ margin: '0 10px' }}
           onClick={delCategory}
         >
           删除

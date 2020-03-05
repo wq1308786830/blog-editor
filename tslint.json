@@ -1,0 +1,9 @@
+{
+  "extends": ["tslint:latest", "tslint-react"],
+  "rules": {
+    "quotemark": [true, "single"],
+    "no-console": [true, "warn"],
+    "no-submodule-imports": false,
+    "import-spacing": true
+  }
+}

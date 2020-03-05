@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { message } from 'antd';
 
 /**
  * 展示loading
@@ -8,7 +8,7 @@ import { message } from "antd";
  */
 const loading = (
   isShow = true,
-  content = "正在加载...",
+  content = '正在加载...',
   afterClose: any = undefined
 ) => {
   if (isShow) {
@@ -37,13 +37,13 @@ const toast = (content: string, afterClose: any = undefined) => {
  * @return {string}
  */
 const parseObj2SearchParams = (obj: any) => {
-  let searchParams = "";
+  let searchParams = '';
   if (obj !== null && obj !== undefined) {
     searchParams = Object.keys(obj)
       .map(key => {
         return `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`;
       })
-      .join("&");
+      .join('&');
   }
 
   return searchParams;

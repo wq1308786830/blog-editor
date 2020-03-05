@@ -1,6 +1,6 @@
-import axios from "axios";
-import config from "../config";
-import tools from "./tools";
+import axios from 'axios';
+import config from '../config';
+import tools from './tools';
 
 declare module 'axios' {
   export interface AxiosResponse<T = any> extends Promise<T> {}
@@ -11,9 +11,9 @@ const TIMEOUT = 3 * 60 * 1000; // 请求超时3min
 
 axios.defaults.baseURL = prefix;
 axios.defaults.timeout = TIMEOUT;
-axios.defaults.headers.common.Authorization = "111";
-axios.defaults.headers.post["Content-Type"] =
-  "application/x-www-form-urlencoded;charset=UTF-8";
+axios.defaults.headers.common.Authorization = '111';
+axios.defaults.headers.post['Content-Type'] =
+  'application/x-www-form-urlencoded;charset=UTF-8';
 
 /**
  * 请求后端返回Promise
@@ -41,7 +41,7 @@ async function request(url: string, options: any, isShowLoading: boolean) {
       if (e.errMessage) {
         return tools.toast(e.errMessage);
       }
-      return tools.toast("网络错误～");
+      return tools.toast('网络错误～');
     });
     throw e;
   }
@@ -89,10 +89,10 @@ axios.interceptors.response.use(
  */
 function GET(url: string, params: any = null, showLoading: boolean = false) {
   let searchParams = tools.parseObj2SearchParams(params);
-  searchParams = searchParams === "" ? searchParams : `?${searchParams}`;
+  searchParams = searchParams === '' ? searchParams : `?${searchParams}`;
 
   const options = {
-    method: "GET"
+    method: 'GET'
   };
 
   return request(`${url}${searchParams}`, options, showLoading);
@@ -110,7 +110,7 @@ function POST(url: string, params: any = null, showLoading: boolean = false) {
   const searchParams = tools.parseObj2SearchParams(params);
 
   const options = {
-    method: "POST",
+    method: 'POST',
     body: searchParams
   };
 
@@ -129,7 +129,7 @@ function PUT(url: string, params: any = null, showLoading: boolean = false) {
   const searchParams = tools.parseObj2SearchParams(params);
 
   const options = {
-    method: "PUT",
+    method: 'PUT',
     body: searchParams
   };
 
@@ -146,10 +146,10 @@ function PUT(url: string, params: any = null, showLoading: boolean = false) {
  */
 function DELETE(url: string, params: any = null, showLoading: boolean = false) {
   let searchParams = tools.parseObj2SearchParams(params);
-  searchParams = searchParams === "" ? searchParams : `?${searchParams}`;
+  searchParams = searchParams === '' ? searchParams : `?${searchParams}`;
 
   const options = {
-    method: "DELETE"
+    method: 'DELETE'
   };
   return request(`${url}${searchParams}`, options, showLoading);
 }

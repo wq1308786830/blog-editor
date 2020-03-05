@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Avatar,
   Button,
@@ -10,10 +10,10 @@ import {
   message,
   Popconfirm,
   Spin
-} from "antd";
-import "./ArticleListManage.less";
-import AdminServices from "../../../services/admin";
-import BlogServices from "../../../services/blog";
+} from 'antd';
+import './ArticleListManage.less';
+import AdminServices from '../../../services/admin';
+import BlogServices from '../../../services/blog';
 
 interface ArticleListProps {}
 
@@ -44,9 +44,9 @@ const ArticleListManage = (props: ArticleListProps) => {
     pageIndex: 0,
     options: [],
     cOptions: {
-      categoryId: "",
+      categoryId: '',
       dateRange: [],
-      text: ""
+      text: ''
     }
   };
   const [compState, setCompState] = useState(initState);
@@ -87,7 +87,7 @@ const ArticleListManage = (props: ArticleListProps) => {
       // In real scene, you can using public method of react-virtualized:
       // eslint-disable-next-line max-len
       // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
-      window.dispatchEvent(new Event("resize"));
+      window.dispatchEvent(new Event('resize'));
     });
   }, [compState, getAllCategories]);
 
@@ -213,10 +213,10 @@ const ArticleListManage = (props: ArticleListProps) => {
   const loadMore = showLoadingMore ? (
     <div
       style={{
-        textAlign: "center",
+        textAlign: 'center',
         marginTop: 12,
         height: 32,
-        lineHeight: "32px"
+        lineHeight: '32px'
       }}
     >
       {loadingMore && <Spin />}
@@ -225,43 +225,43 @@ const ArticleListManage = (props: ArticleListProps) => {
       ) : null}
     </div>
   ) : (
-    <div className="ant-list-empty-text">没更多数据了</div>
+    <div className='ant-list-empty-text'>没更多数据了</div>
   );
   return (
     <div>
       <Input.Group
-        compact
-        style={{ textAlign: "center", paddingBottom: "2em" }}
+        compact={true}
+        style={{ textAlign: 'center', paddingBottom: '2em' }}
       >
         <Cascader
           value={category}
           style={{ width: 300 }}
           options={options}
-          placeholder="类目"
+          placeholder='类目'
           onChange={onCascaderChange}
-          changeOnSelect
+          changeOnSelect={true}
         />
         <DatePicker.RangePicker
-          name="dateRange"
+          name='dateRange'
           value={cOptions.dateRange}
           onChange={onRangePickerChange}
-          placeholder={["开始时间", "截止时间"]}
+          placeholder={['开始时间', '截止时间']}
         />
         <Input
-          name="text"
+          name='text'
           value={cOptions.text}
-          placeholder="模糊搜索"
+          placeholder='模糊搜索'
           onChange={onInputChange}
           style={{ width: 200 }}
         />
-        <Button type="primary" icon="search" onClick={onSearchClick}>
+        <Button type='primary' icon='search' onClick={onSearchClick}>
           过滤
         </Button>
       </Input.Group>
       <List
-        className="demo-loadmore-list"
+        className='demo-loadmore-list'
         loading={loading}
-        itemLayout="horizontal"
+        itemLayout='horizontal'
         loadMore={loadMore}
         dataSource={data}
         renderItem={item => (
@@ -276,10 +276,10 @@ const ArticleListManage = (props: ArticleListProps) => {
                 编辑
               </Link>,
               <Popconfirm
-                title="确定要删除吗?"
+                title='确定要删除吗?'
                 onConfirm={() => confirm(item)}
-                okText="确定"
-                cancelText="取消"
+                okText='确定'
+                cancelText='取消'
               >
                 <Button>删除</Button>
               </Popconfirm>
@@ -287,12 +287,12 @@ const ArticleListManage = (props: ArticleListProps) => {
           >
             <List.Item.Meta
               avatar={
-                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                <Avatar src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' />
               }
               title={
                 <Link
                   to={`/category/${item.category_id}/articles/${item.id}/detail`}
-                  target="_blank"
+                  target='_blank'
                 >
                   {item.title}
                 </Link>

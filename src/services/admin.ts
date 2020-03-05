@@ -1,12 +1,12 @@
-import md5 from "md5";
-import request from "../utils/request";
+import md5 from 'md5';
+import request from '../utils/request';
 
 const login = (formData: any) => {
   const params = {
     ...formData,
     password: md5(formData.password)
   };
-  return request.POST("/admin/login", params);
+  return request.POST('/admin/login', params);
 };
 
 const getArticles = (option: any, pageIndex: number) => {
@@ -15,15 +15,15 @@ const getArticles = (option: any, pageIndex: number) => {
 };
 
 const publishArticle = (body: any) => {
-  return request.POST("/article/publishArticle", { ...body });
+  return request.POST('/article/publishArticle', { ...body });
 };
 
 const deleteArticle = (id: string) => {
-  return request.GET("/article/deleteArticle", { id });
+  return request.GET('/article/deleteArticle', { id });
 };
 
 const addCategory = (fatherId: number, level: number, categoryName: string) => {
-  return request.PUT("/admin/addCategory", { fatherId, level, categoryName });
+  return request.PUT('/admin/addCategory', { fatherId, level, categoryName });
 };
 
 export default {

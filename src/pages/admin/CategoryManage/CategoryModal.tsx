@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Input, message, Modal } from "antd";
+import React, { useEffect, useState } from 'react';
+import { Input, message, Modal } from 'antd';
 
-import AdminServices from "../../../services/admin";
+import AdminServices from '../../../services/admin';
 
 interface CategoryModalProps {
   data: any;
@@ -22,7 +22,7 @@ const CategoryModal = (props: CategoryModalProps) => {
     confirmLoading: false,
     fatherId: props.data.categoryId,
     level: props.data.level,
-    categoryName: ""
+    categoryName: ''
   };
   const [compState, setCompState] = useState(initState);
 
@@ -39,7 +39,7 @@ const CategoryModal = (props: CategoryModalProps) => {
     AdminServices.addCategory(fatherId, level, categoryName)
       .then((data: any) => {
         if (data.success) {
-          message.success("添加成功");
+          message.success('添加成功');
         } else {
           message.warning(data.msg);
         }
@@ -51,10 +51,10 @@ const CategoryModal = (props: CategoryModalProps) => {
   return (
     <Modal
       width={300}
-      title="添加类目"
-      okText="确定"
-      cancelText="取消"
-      wrapClassName="vertical-center-modal"
+      title='添加类目'
+      okText='确定'
+      cancelText='取消'
+      wrapClassName='vertical-center-modal'
       visible={visible}
       confirmLoading={confirmLoading}
       onOk={handleOk}
@@ -66,7 +66,7 @@ const CategoryModal = (props: CategoryModalProps) => {
           onChange={e =>
             setCompState({ ...compState, categoryName: e.target.value })
           }
-          placeholder="类目名"
+          placeholder='类目名'
         />
       </p>
     </Modal>

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Loadable from 'react-loadable';
 import { Redirect, Route, Router } from 'react-router-dom';
 import { Spin } from 'antd';
@@ -12,8 +12,8 @@ const history = createBrowserHistory();
 moment.locale('zh-cn');
 
 const Loading = () => (
-  <div className="loading">
-    <Spin size="large" />
+  <div className='loading'>
+    <Spin size='large' />
   </div>
 );
 
@@ -30,10 +30,10 @@ const Login = Loadable({
 const App: React.FC = () => {
   return (
     <Router history={history}>
-      <div className="App">
-        <Route exact path="/" render={() => <Redirect to="/admin" />} />
-        <PrivateRoute path="/admin" component={AdminMain} />
-        <Route path="/loginAdmin" component={Login} />
+      <div className='App'>
+        <Route exact={true} path='/' render={() => <Redirect to='/admin' />} />
+        <PrivateRoute path='/admin' component={AdminMain} />
+        <Route path='/loginAdmin' component={Login} />
       </div>
     </Router>
   );
