@@ -28,10 +28,11 @@ const Login = Loadable({
 });
 
 const App: React.FC = () => {
-  return (
+    const renderRoute = () => <Redirect to='/admin' />;
+    return (
     <Router history={history}>
       <div className='App'>
-        <Route exact={true} path='/' render={() => <Redirect to='/admin' />} />
+        <Route exact={true} path='/' render={renderRoute} />
         <PrivateRoute path='/admin' component={AdminMain} />
         <Route path='/loginAdmin' component={Login} />
       </div>
